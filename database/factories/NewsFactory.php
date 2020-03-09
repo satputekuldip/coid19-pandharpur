@@ -10,7 +10,7 @@ $factory->define(News::class, function (Faker $faker) {
     return [
         'title' => $faker->title,
         'body' => $faker->text(500),
-        'featured_image' => $faker->image('public/storage/news_images',640,480),
+        'featured_image' => $faker->image('public/storage/news_images',640,480, null, false),
         'video' => null,
         'link' => null,
         'created_at' => $faker->date('Y-m-d H:i:s'),

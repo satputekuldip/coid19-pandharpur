@@ -78,7 +78,7 @@ class NewsAPIController extends AppBaseController
             return $this->sendError('News not found');
         }
 
-        return $this->sendResponse($news->toArray(), 'News retrieved successfully');
+        return $this->sendResponse(new NewsResource($news), 'News retrieved successfully');
     }
 
     /**

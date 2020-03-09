@@ -21,7 +21,7 @@ class NewsResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'body' => $this->body,
-            'featured_image' => \Config::get('app.url').'/storage/news_images/'. $this->featured_image,
+            'featured_image' => \Config::get('app.url').'storage/news_images/'. $this->featured_image,
             'video' => $this->video,
             'link' => $this->link,
             'created_at' => Carbon::parse($this->created_at)->format('Y-d-m h:m:s a'),

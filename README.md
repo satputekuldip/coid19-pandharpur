@@ -14,7 +14,7 @@ This app has ability to manage new comers in pandharpur and manage their quarant
 ## Installation
 
 ```
-git clone https://github.com/satputekuldip/coid19-pandharpur.git
+git clone https://github.com/satputekuldip/covid19-pandharpur.git
 
 cd covid19-pandharpur
 

@@ -47,6 +47,9 @@ Route::get('quarantineAddresses/institutes', 'QuarantineAddressController@instit
 
 Route::resource('quarantineAddresses', 'QuarantineAddressController');
 
+Route::get('quarantinePatients/institute', 'QuarantinePatientController@institute')
+    ->name('quarantinePatients.institute');
+
 Route::resource('quarantinePatients', 'QuarantinePatientController');
 
 Route::resource('symptoms', 'SymptomController');

@@ -19,7 +19,7 @@
     <a href="{{ route('patients.index') }}"><i class="fa fa-edit"></i><span>Patients</span></a>
 </li>
 
-<li class="{{ Request::is('quarantine_addresses.institutes*') ? 'active' : '' }}">
+<li class="{{ Request::is('quarantine_addresses/institutes*') ? 'active' : '' }}">
     <a href="{{ route('quarantine_addresses.institutes') }}"><i class="fa fa-edit"></i><span>Institutes</span></a>
 </li>
 
@@ -28,8 +28,13 @@
 </li>
 
 <li class="{{ Request::is('quarantinePatients*') ? 'active' : '' }}">
-    <a href="{{ route('quarantinePatients.index') }}"><i class="fa fa-edit"></i><span>Quarantine Patients</span></a>
-    <a href="{{ route('quarantinePatients.index') }}"><i class="fa fa-edit"></i><span>Quarantine Patients</span></a>
+    <a href="{{ route('quarantinePatients.index') }}"><i class="fa fa-edit"></i><span>Home Quarantine Patients</span></a>
+
+</li>
+
+<li class="{{ Request::is('quarantinePatients/institute*') ? 'active' : '' }}">
+    <a href="{{ route('quarantinePatients.institute') }}"><i class="fa fa-edit"></i><span>Institute Quarantine Patients</span></a>
+
 </li>
 
 <li class="{{ Request::is('symptoms*') ? 'active' : '' }}">

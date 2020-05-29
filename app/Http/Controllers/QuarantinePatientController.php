@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\InstituteQuarantinePatientDataTable;
 use App\DataTables\QuarantinePatientDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateQuarantinePatientRequest;
@@ -28,6 +29,11 @@ class QuarantinePatientController extends AppBaseController
      * @return Response
      */
     public function index(QuarantinePatientDataTable $quarantinePatientDataTable)
+    {
+        return $quarantinePatientDataTable->render('quarantine_patients.index');
+    }
+
+    public function institute(InstituteQuarantinePatientDataTable $quarantinePatientDataTable)
     {
         return $quarantinePatientDataTable->render('quarantine_patients.index');
     }

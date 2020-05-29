@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>InfyOm Generator</title>
+    <title>Pandharpur-COVID-19</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
     <!-- Bootstrap 3.3.7 -->
@@ -35,7 +35,7 @@
 
             <!-- Logo -->
             <a href="#" class="logo">
-                <b>InfyOm</b>
+                <b>COVID-19</b>
             </a>
 
             <!-- Header Navbar -->
@@ -98,7 +98,7 @@
 
         <!-- Main Footer -->
         <footer class="main-footer" style="max-height: 100px;text-align: center">
-            <strong>Copyright © 2016 <a href="#">Company</a>.</strong> All rights reserved.
+            <strong>Copyright © {{ date('Y') }} <a href="https://kuldip.dev">Kuldip.Dev</a>.</strong> All rights reserved.
         </footer>
 
     </div>
@@ -125,7 +125,7 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Home</a></li>
+                    <li><a href="{{ url('/home') }}">Dashboard</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

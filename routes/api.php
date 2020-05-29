@@ -19,3 +19,23 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::resource('news', 'NewsAPIController');
+
+Route::resource('daily_deaths', 'DailyDeathAPIController');
+
+Route::resource('states', 'StateAPIController');
+
+Route::resource('districts', 'DistrictAPIController');
+
+Route::resource('tahsils', 'TahsilAPIController');
+
+Route::resource('entry_points', 'EntryPointAPIController');
+
+Route::resource('patients', 'PatientAPIController');
+
+Route::resource('quarantine_addresses', 'QuarantineAddressAPIController');
+
+Route::resource('quarantine_patients', 'QuarantinePatientAPIController');
+
+Route::resource('symptoms', 'SymptomAPIController');
+
+Route::resource('attendances', 'AttendanceAPIController');

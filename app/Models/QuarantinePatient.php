@@ -28,12 +28,14 @@ class QuarantinePatient extends Model
     use SoftDeletes;
 
     public $table = 'quarantine_patients';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
 
     protected $dates = ['deleted_at'];
+
+    protected $with = ['quarantineAddress','patient'];
 
 
 
@@ -94,6 +96,6 @@ class QuarantinePatient extends Model
      **/
     public function quarantineAddress()
     {
-        return $this->belongsTo(\App\Models\QuarantineAddress::class, 'quarantine_address_id');
+        return $this->belongsTo(\App\Models\QuarantineAddress::class, 'quarantine_address_id','id');
     }
 }

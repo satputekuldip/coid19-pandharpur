@@ -25,6 +25,19 @@ class CreateQuarantinePatientRequest extends FormRequest
      */
     public function rules()
     {
-        return QuarantinePatient::$rules;
+        return [
+            'patient_id' => 'required',
+            'covid_status' => 'required',
+            'present_at_quarantine' => 'required',
+
+            'type' => 'required',
+            'name' => 'required',
+            'phone' => 'required',
+            'state_id' => 'required',
+            'district_id' => 'required',
+            'tahasil_id' => 'required',
+            'address' => 'required',
+            'pincode' => 'required'
+        ];
     }
 }

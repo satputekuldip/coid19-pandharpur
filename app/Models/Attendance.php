@@ -22,7 +22,7 @@ class Attendance extends Model
     use SoftDeletes;
 
     public $table = 'attendance';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -63,7 +63,6 @@ class Attendance extends Model
         'checked_at' => 'required',
         'symptoms' => 'required',
         'remarks' => 'required',
-        'complete_quarantine_days' => 'required'
     ];
 
     /**

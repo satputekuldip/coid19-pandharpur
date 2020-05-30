@@ -15,9 +15,9 @@ class CreateQuarantinePatientsTable extends Migration
     {
         Schema::create('quarantine_patients', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('patient_id');
+            $table->unsignedBigInteger('patient_id')->unique();
             $table->unsignedBigInteger('quarantine_address_id');
-            $table->enum('covid_status',['QUARANTINED','POSITIVE','NEGATIVE','RECOVERED','DEAD']);
+            $table->enum('covid_status',['HOME_QUARANTINED','INSTITUTE_QUARANTINED','POSITIVE','NEGATIVE','RECOVERED','DEAD']);
             $table->boolean('present_at_quarantine')->default(false);
             $table->text('remark')->nullable();
 

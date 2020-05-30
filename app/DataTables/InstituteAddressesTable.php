@@ -66,6 +66,7 @@ class InstituteAddressesTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id',
             'type' => ['title' => 'Quarantine Type'],
             'name' => ['title' => 'Institute Name'],
             'phone',

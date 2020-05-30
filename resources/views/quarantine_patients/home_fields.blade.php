@@ -1,14 +1,58 @@
-<!-- Patient Id Field -->
+
+{!! Form::hidden('patient_id', $id) !!}
+
+
+<!-- Type Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('patient_id', 'Patient Id:') !!}
-    {!! Form::number('patient_id', null, ['class' => 'form-control']) !!}
+    {!! Form::label('type', 'Quarantine Type:') !!}
+    {!! Form::select('type', ['HOME'=>'HOME'] ,null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Quarantine Address Id Field -->
+<!-- Name Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('quarantine_address_id', 'Quarantine Address Id:') !!}
-    {!! Form::number('quarantine_address_id', null, ['class' => 'form-control']) !!}
+    {!! Form::label('name', 'House/Owner Name:') !!}
+    {!! Form::text('name', $patient->full_name, ['class' => 'form-control']) !!}
 </div>
+
+<!-- Phone Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('phone', 'Phone:') !!}
+    {!! Form::text('phone', $patient->mobile, ['class' => 'form-control']) !!}
+</div>
+
+<!-- State Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('state_id', 'State:') !!}
+    {!! Form::select('state_id',$states ?? [], $patient->state_id, ['class' => 'form-control','id'=>'state_id','onchange'=>"GetSelectedState(this)"]) !!}
+</div>
+
+<!-- District Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('district_id', 'District:') !!}
+    {!! Form::select('district_id', $districts ?? [],$patient->district_id, ['class' => 'form-control','id'=>'district_id']) !!}
+    {{--    <select name="district_id" id="district_id" class="form-control"></select>--}}
+
+
+</div>
+
+<!-- Tahasil Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('tahasil_id', 'Tahasil:') !!}
+    {!! Form::select('tahasil_id', $tahasils ?? [] , $patient->tahasil_id, ['class' => 'form-control','id'=>'tahasil_id']) !!}
+</div>
+
+<!-- Address Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('address', 'Address:') !!}
+    {!! Form::text('address', $patient->current_address, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Pincode Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('pincode', 'Pincode:') !!}
+    {!! Form::text('pincode', $patient->pincode, ['class' => 'form-control']) !!}
+</div>
+
 
 <!-- Covid Status Field -->
 <div class="form-group col-sm-6">
@@ -19,28 +63,24 @@
 
 
 <!-- Present At Quarantine Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-12">
     {!! Form::label('present_at_quarantine', 'Present At Quarantine:') !!}
     <label class="checkbox-inline">
         {!! Form::radio('present_at_quarantine', '1', null,  ['id' => 'present_at_quarantine']) !!}
         YES
     </label>
     <label class="checkbox-inline">
-        {!! Form::radio('present_at_quarantine', '0', null,  ['id' => 'present_at_quarantine']) !!}
+        {!! Form::radio('present_at_quarantine', '0', 1,  ['id' => 'present_at_quarantine']) !!}
         NO
     </label>
 </div>
 
-<!-- Remark Field -->
-<div class="form-group col-sm-6 col-lg-6">
-    {!! Form::label('remark', 'Remark:') !!}
-    {!! Form::text('remark', null, ['class' => 'form-control']) !!}
-</div>
+
 
 <!-- Quarantined At Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('quarantined_at', 'Quarantined At:') !!}
-    {!! Form::date('quarantined_at', null, ['class' => 'form-control','id'=>'quarantined_at']) !!}
+    {!! Form::date('quarantined_at', date('Y-m-d'), ['class' => 'form-control','id'=>'quarantined_at']) !!}
 </div>
 
 @push('scripts')
@@ -111,7 +151,11 @@
         })
     </script>
 @endpush
-
+<!-- Remark Field -->
+<div class="form-group col-sm-8 col-lg-8">
+    {!! Form::label('remark', 'Remark:') !!}
+    {!! Form::text('remark', null, ['class' => 'form-control']) !!}
+</div>
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}

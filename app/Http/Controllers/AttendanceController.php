@@ -6,6 +6,10 @@ use App\DataTables\AttendanceDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateAttendanceRequest;
 use App\Http\Requests\UpdateAttendanceRequest;
+use App\Models\Attendance;
+use App\Models\Patient;
+use App\Models\QuarantinePatient;
+use App\Models\Symptom;
 use App\Repositories\AttendanceRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
@@ -39,7 +43,26 @@ class AttendanceController extends AppBaseController
      */
     public function create()
     {
-        return view('attendances.create');
+//        return Patient::pluck('full_name','id')->toArray();
+//        $patients= Patient::pluck('full_name','id')->toArray();
+
+        $quarantinePatients = QuarantinePatient::all();
+        $patients = array();
+
+        foreach ($quarantinePatients as $quarantinePatient){
+//             array_push($patients , json_encode([$quarantinePatient->patient->id => $quarantinePatient->patient->full_name]));
+            $patients = array_merge($patients , ["\"".$quarantinePatient->patient->id."\"" => $quarantinePatient->patient->full_name]);
+//            $patients .=  json_encode([$quarantinePatient->patient->id => $quarantinePatient->patient->full_name]);
+        }
+
+//        return $patients;
+        return view('attendances.create',compact('patients'));
+    }
+
+    public function add_attendance($id){
+        $quarantinePatientId = QuarantinePatient::find($id)->patient->id;
+        $symptoms = Symptom::pluck('name')->toArray();
+        return view('attendances.add_attendance',compact('quarantinePatientId','symptoms'));
     }
 
     /**
@@ -52,12 +75,43 @@ class AttendanceController extends AppBaseController
     public function store(CreateAttendanceRequest $request)
     {
         $input = $request->all();
+        $attendance = null;
+        $todaysCount = Attendance::where('patient_id',$input['patient_id'])
+            ->whereDate('checked_at',$input['checked_at'])->count();
+        $input['complete_quarantine_days'] = Attendance::where('patient_id',$input['patient_id'])->count() + 1;
 
-        $attendance = $this->attendanceRepository->create($input);
+        if ($todaysCount == 0) {
+            $symptoms = json_decode($input['symptoms'], true);
+            $m_symptoms = "";
+            foreach ($symptoms as $tag) {
+                $db_tag = null;
+                $tag_count = Symptom::where('name', $tag['value'])->count();
+                if ($tag_count == 0) {
+                    $db_tag = Symptom::create([
+                        'name' => $tag['value'],
+                        'name_marathi' => $tag['value']
+                    ]);
+                } else {
+                    $db_tag = Symptom::where('name', $tag['value'])->first();
+                }
+                $m_symptoms .= $tag['value'] . ",";
 
-        Flash::success('Attendance saved successfully.');
+            }
+            $input['symptoms'] = $m_symptoms;
 
-        return redirect(route('attendances.index'));
+            $attendance = $this->attendanceRepository->create($input);
+            Flash::success('Attendance saved successfully.');
+        } else {
+            Flash::warning('Today\'s Attendance Already saved.');
+        }
+
+
+
+        if ($attendance->patient->quarantinePatient->quarantineAddress->type == "HOME"){
+
+            return redirect(route('quarantinePatients.index'));
+        }
+        return redirect(route('quarantinePatients.institute'));
     }
 
     /**
@@ -90,14 +144,14 @@ class AttendanceController extends AppBaseController
     public function edit($id)
     {
         $attendance = $this->attendanceRepository->find($id);
-
+        $symptoms = Symptom::pluck('name')->toArray();
         if (empty($attendance)) {
             Flash::error('Attendance not found');
 
             return redirect(route('attendances.index'));
         }
 
-        return view('attendances.edit')->with('attendance', $attendance);
+        return view('attendances.edit',compact('symptoms'))->with('attendance', $attendance);
     }
 
     /**
@@ -111,14 +165,32 @@ class AttendanceController extends AppBaseController
     public function update($id, UpdateAttendanceRequest $request)
     {
         $attendance = $this->attendanceRepository->find($id);
-
+        $input = $request->all();
         if (empty($attendance)) {
             Flash::error('Attendance not found');
 
             return redirect(route('attendances.index'));
         }
 
-        $attendance = $this->attendanceRepository->update($request->all(), $id);
+        $symptoms = json_decode($input['symptoms'], true);
+        $m_symptoms = "";
+        foreach ($symptoms as $tag) {
+            $db_tag = null;
+            $tag_count = Symptom::where('name', $tag['value'])->count();
+            if ($tag_count == 0) {
+                $db_tag = Symptom::create([
+                    'name' => $tag['value'],
+                    'name_marathi' => $tag['value']
+                ]);
+            } else {
+                $db_tag = Symptom::where('name', $tag['value'])->first();
+            }
+            $m_symptoms .= $tag['value'] . ",";
+
+        }
+        $input['symptoms'] = $m_symptoms;
+
+        $attendance = $this->attendanceRepository->update($input, $id);
 
         Flash::success('Attendance updated successfully.');
 

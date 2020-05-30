@@ -17,12 +17,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
 
 Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->middleware('verified');
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('news', 'NewsController');
 
@@ -42,16 +42,28 @@ Route::get('entryPoints_of_tahsils/{id}', 'PatientController@entryPoints_of_tahs
 
 Route::resource('patients', 'PatientController');
 
-Route::get('quarantineAddresses/institutes', 'QuarantineAddressController@institutes')
+Route::get('institutesQuarantineAddresses', 'QuarantineAddressController@institutes')
     ->name('quarantine_addresses.institutes');
 
 Route::resource('quarantineAddresses', 'QuarantineAddressController');
 
-Route::get('quarantinePatients/institute', 'QuarantinePatientController@institute')
+Route::get('instituteQuarantinePatients', 'QuarantinePatientController@institute')
     ->name('quarantinePatients.institute');
+
+Route::get('quarantinePatients/add_to_home_quarantine/{id}', 'QuarantinePatientController@home_quarantine')
+    ->name('quarantinePatients.home_quarantine');
+
+Route::get('quarantinePatients/add_to_institute_quarantine/{id}', 'QuarantinePatientController@institute_quarantine')
+    ->name('quarantinePatients.institute_quarantine');
+
+Route::post('quarantinePatients/store_institute_quarantine_patient', 'QuarantinePatientController@store_institute_quarantine_patient')
+->name('quarantinePatients.store_institute_quarantine_patient');
 
 Route::resource('quarantinePatients', 'QuarantinePatientController');
 
 Route::resource('symptoms', 'SymptomController');
+
+Route::get('attendances/add_attendance/{id}', 'AttendanceController@add_attendance')
+    ->name('attendances.add_attendance');
 
 Route::resource('attendances', 'AttendanceController');

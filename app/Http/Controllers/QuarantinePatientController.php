@@ -5,21 +5,32 @@ namespace App\Http\Controllers;
 use App\DataTables\InstituteQuarantinePatientDataTable;
 use App\DataTables\QuarantinePatientDataTable;
 use App\Http\Requests;
+use App\Http\Requests\CreateInstituteQuarantinePatientRequest;
 use App\Http\Requests\CreateQuarantinePatientRequest;
 use App\Http\Requests\UpdateQuarantinePatientRequest;
+use App\Models\District;
+use App\Models\Patient;
+use App\Models\QuarantineAddress;
+use App\Models\QuarantinePatient;
+use App\Models\State;
+use App\Models\Tahsil;
+use App\Repositories\QuarantineAddressRepository;
 use App\Repositories\QuarantinePatientRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\Request;
 use Response;
 
 class QuarantinePatientController extends AppBaseController
 {
     /** @var  QuarantinePatientRepository */
     private $quarantinePatientRepository;
+    private $quarantineAddressRepository;
 
-    public function __construct(QuarantinePatientRepository $quarantinePatientRepo)
+    public function __construct(QuarantinePatientRepository $quarantinePatientRepo, QuarantineAddressRepository $quarantineAddressRepo)
     {
         $this->quarantinePatientRepository = $quarantinePatientRepo;
+        $this->quarantineAddressRepository = $quarantineAddressRepo;
     }
 
     /**
@@ -36,6 +47,22 @@ class QuarantinePatientController extends AppBaseController
     public function institute(InstituteQuarantinePatientDataTable $quarantinePatientDataTable)
     {
         return $quarantinePatientDataTable->render('quarantine_patients.index');
+    }
+
+    public function home_quarantine($id)
+    {
+        $states = State::pluck('name', 'id')->toArray();
+        $districts = District::pluck('name', 'id')->toArray();
+        $tahasils = Tahsil::pluck('name', 'id')->toArray();
+        $patient = Patient::find($id);
+        return view('quarantine_patients.add_home_quarantine', compact('id', 'patient', 'states', 'districts', 'tahasils'));
+    }
+
+    public function institute_quarantine($id)
+    {
+//        $quarantinePatientId = QuarantinePatient::find($id)->patient->id;
+        $institutes = QuarantineAddress::where('type', 'INSTITUTE')->pluck('name', 'id')->toArray();
+        return view('quarantine_patients.add_institute_quarantine', compact('id', 'institutes'));
     }
 
     /**
@@ -59,6 +86,14 @@ class QuarantinePatientController extends AppBaseController
     {
         $input = $request->all();
 
+        $input['state'] = State::find($input['state_id'])->name;
+        $input['district'] = District::find($input['district_id'])->name;
+        $input['tahasil'] = Tahsil::find($input['tahasil_id'])->name;
+
+        $quarantineAddress = $this->quarantineAddressRepository->create($input);
+
+        $input['quarantine_address_id'] = $quarantineAddress->id;
+
         $quarantinePatient = $this->quarantinePatientRepository->create($input);
 
         Flash::success('Quarantine Patient saved successfully.');
@@ -66,10 +101,21 @@ class QuarantinePatientController extends AppBaseController
         return redirect(route('quarantinePatients.index'));
     }
 
+    public function store_institute_quarantine_patient(CreateInstituteQuarantinePatientRequest $request)
+    {
+        $input = $request->all();
+
+        $quarantinePatient = $this->quarantinePatientRepository->create($input);
+
+        Flash::success('Quarantine Patient saved successfully.');
+
+        return redirect(route('quarantinePatients.institute'));
+    }
+
     /**
      * Display the specified QuarantinePatient.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */
@@ -89,7 +135,7 @@ class QuarantinePatientController extends AppBaseController
     /**
      * Show the form for editing the specified QuarantinePatient.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */
@@ -109,7 +155,7 @@ class QuarantinePatientController extends AppBaseController
     /**
      * Update the specified QuarantinePatient in storage.
      *
-     * @param  int              $id
+     * @param int $id
      * @param UpdateQuarantinePatientRequest $request
      *
      * @return Response
@@ -134,7 +180,7 @@ class QuarantinePatientController extends AppBaseController
     /**
      * Remove the specified QuarantinePatient from storage.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */

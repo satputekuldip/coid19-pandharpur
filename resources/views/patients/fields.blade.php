@@ -99,7 +99,7 @@
 <!-- Covid Status Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('covid_status', 'Covid Status:') !!}
-    {!! Form::select('covid_status', ['QUARANTINED'=>'QUARANTINED','POSITIVE'=>'POSITIVE',
+    {!! Form::select('covid_status', ['HOME_QUARANTINED'=>'HOME_QUARANTINED','INSTITUTE_QUARANTINED'=>'INSTITUTE_QUARANTINED','POSITIVE'=>'POSITIVE',
     'NEGATIVE'=>'NEGATIVE','RECOVERED'=>'RECOVERED','DEAD'=>'DEAD'] , null , ['class' => 'form-control']) !!}
 </div>
 

@@ -38,7 +38,7 @@ class CreatePatientsTable extends Migration
             $table->string('health_condition');
 
 
-            $table->enum('covid_status',['QUARANTINED','POSITIVE','NEGATIVE','RECOVERED','DEAD']);
+            $table->enum('covid_status',['HOME_QUARANTINED','INSTITUTE_QUARANTINED','POSITIVE','NEGATIVE','RECOVERED','DEAD']);
             $table->boolean('present_at_quarantine')->default(false);
 
             $table->timestamps();

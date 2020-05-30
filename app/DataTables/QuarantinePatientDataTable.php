@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\QuarantineAddress;
 use App\Models\QuarantinePatient;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
@@ -29,7 +30,7 @@ class QuarantinePatientDataTable extends DataTable
      */
     public function query(QuarantinePatient $model)
     {
-        return $model->newQuery();
+        return $model->whereIn('quarantine_address_id',QuarantineAddress::where('type','HOME')->pluck('id')->toArray())->newQuery();
     }
 
     /**
@@ -65,11 +66,12 @@ class QuarantinePatientDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id',
             'patient_id',
+            ['name'=>'patient.full_name','data'=>'patient.full_name','title'=>'Patient Name'],
             ['name'=>'quarantine_address.address','data'=>'quarantine_address.address','title'=>'Address'],
             'covid_status',
             'present_at_quarantine',
-            'remark',
             'quarantined_at'
         ];
     }

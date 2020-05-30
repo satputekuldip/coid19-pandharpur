@@ -11,5 +11,12 @@
         'class' => 'btn btn-danger btn-xs',
         'onclick' => "return confirm('Are you sure?')"
     ]) !!}
+
+
+
 </div>
+
+<a href="{{ route('attendances.add_attendance', $id) }}" class='btn btn-success btn'>
+    <i class="glyphicon glyphicon-add"></i>Add Attendance
+</a>
 {!! Form::close() !!}

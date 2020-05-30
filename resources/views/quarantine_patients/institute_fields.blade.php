@@ -1,46 +1,37 @@
-<!-- Patient Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('patient_id', 'Patient Id:') !!}
-    {!! Form::number('patient_id', null, ['class' => 'form-control']) !!}
-</div>
+{!! Form::hidden('patient_id', $id) !!}
 
-<!-- Quarantine Address Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('quarantine_address_id', 'Quarantine Address Id:') !!}
-    {!! Form::number('quarantine_address_id', null, ['class' => 'form-control']) !!}
+    {!! Form::label('quarantine_address_id', 'Select Institute:') !!}
+    {!! Form::select('quarantine_address_id', $institutes , null , ['class' => 'form-control']) !!}
 </div>
 
 <!-- Covid Status Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('covid_status', 'Covid Status:') !!}
     {!! Form::select('covid_status', ['HOME_QUARANTINED'=>'HOME_QUARANTINED','INSTITUTE_QUARANTINED'=>'INSTITUTE_QUARANTINED','POSITIVE'=>'POSITIVE',
-    'NEGATIVE'=>'NEGATIVE','RECOVERED'=>'RECOVERED','DEAD'=>'DEAD'] , null , ['class' => 'form-control']) !!}
+    'NEGATIVE'=>'NEGATIVE','RECOVERED'=>'RECOVERED','DEAD'=>'DEAD'] , 'INSTITUTE_QUARANTINED' , ['class' => 'form-control']) !!}
 </div>
 
 
 <!-- Present At Quarantine Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-12">
     {!! Form::label('present_at_quarantine', 'Present At Quarantine:') !!}
     <label class="checkbox-inline">
         {!! Form::radio('present_at_quarantine', '1', null,  ['id' => 'present_at_quarantine']) !!}
         YES
     </label>
     <label class="checkbox-inline">
-        {!! Form::radio('present_at_quarantine', '0', null,  ['id' => 'present_at_quarantine']) !!}
+        {!! Form::radio('present_at_quarantine', '0', 1,  ['id' => 'present_at_quarantine']) !!}
         NO
     </label>
 </div>
 
-<!-- Remark Field -->
-<div class="form-group col-sm-6 col-lg-6">
-    {!! Form::label('remark', 'Remark:') !!}
-    {!! Form::text('remark', null, ['class' => 'form-control']) !!}
-</div>
+
 
 <!-- Quarantined At Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('quarantined_at', 'Quarantined At:') !!}
-    {!! Form::date('quarantined_at', null, ['class' => 'form-control','id'=>'quarantined_at']) !!}
+    {!! Form::date('quarantined_at', date('Y-m-d'), ['class' => 'form-control','id'=>'quarantined_at']) !!}
 </div>
 
 @push('scripts')
@@ -111,7 +102,11 @@
         })
     </script>
 @endpush
-
+<!-- Remark Field -->
+<div class="form-group col-sm-8 col-lg-8">
+    {!! Form::label('remark', 'Remark:') !!}
+    {!! Form::text('remark', null, ['class' => 'form-control']) !!}
+</div>
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}

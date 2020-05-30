@@ -130,8 +130,8 @@ class Patient extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function quarantinePatients()
+    public function quarantinePatient()
     {
-        return $this->hasMany(\App\Models\QuarantinePatient::class, 'patient_id');
+        return $this->hasOne(\App\Models\QuarantinePatient::class, 'patient_id');
     }
 }

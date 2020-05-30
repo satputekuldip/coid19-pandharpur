@@ -13,7 +13,7 @@
 <!-- Risk Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('risk', 'Risk:') !!}
-    {!! Form::text('risk', null, ['class' => 'form-control']) !!}
+    {!! Form::select('risk',['LOW'=>'LOW','MEDIUM'=>'MEDIUM','HIGH'=>'HIGH',], null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->

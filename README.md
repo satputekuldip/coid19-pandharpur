@@ -38,6 +38,17 @@ Then initiate migration to database
 php artisan migrate
 ```
 
+Your all table will be created after this command
+
+If you want to insert states districts and tahasils in database then import sql which is in ```database/covid19.sql```
+
+
+## Run
+
+```
+php aritisan serve
+```
+
 ## License
 ```
    Copyright (C) 2020 Kuldip Satpute

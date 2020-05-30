@@ -42,7 +42,7 @@ class PatientDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->addAction(['width' => '120px', 'printable' => false])
+            ->addAction(['width' => '220px', 'printable' => false])
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
@@ -65,6 +65,7 @@ class PatientDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id',
             'full_name',
             'gender',
             'age',

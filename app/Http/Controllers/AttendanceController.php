@@ -102,6 +102,8 @@ class AttendanceController extends AppBaseController
             $attendance = $this->attendanceRepository->create($input);
             Flash::success('Attendance saved successfully.');
         } else {
+            $attendance = Attendance::where('patient_id',$input['patient_id'])
+                ->whereDate('checked_at',$input['checked_at'])->first();
             Flash::warning('Today\'s Attendance Already saved.');
         }
 

@@ -70,6 +70,6 @@ class Attendance extends Model
      **/
     public function patient()
     {
-        return $this->belongsTo(\App\Models\Patient::class, 'patient_id');
+        return $this->belongsTo(\App\Models\Patient::class, 'patient_id','id');
     }
 }
